@@ -1,21 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:matbahk24/bussincc_logic/providers/user/add_to_cart/add_cart_provider.dart';
+import 'package:matbahk24/data/models/models_home/model_home.dart';
 import 'package:matbahk24/helpers/constans.dart';
 import 'package:matbahk24/ui/user/pages/cart/cart_screen.dart';
 import 'package:matbahk24/widgets/default_button.dart';
-
+import 'package:matbahk24/widgets/show_indicator.dart';
+import 'package:provider/provider.dart';
 import 'all_details_product.dart';
 
 class BodyProductDetails extends StatefulWidget {
+  final Foods foods;
+
+  BodyProductDetails({required this.foods});
+
   @override
   _BodyProductDetailsState createState() => _BodyProductDetailsState();
 }
 
 class _BodyProductDetailsState extends State<BodyProductDetails> {
-  final types = ["تبوك", "غداء", "غداء"];
-  String dec =
-      'وتوجد منه أصناف محلية متعددة ليست محصورة في جنوب آسيا فحسب، ولكن توجد أنواع عديدة منه في الشرق الأوسط أيضاً.\n\nتُعد البهـارات الهنديّة من أكثر وأشـهر البهـارات العالمية تميّزاً في قوة رائحتها وحِدّة طعْمـَها الذي يعطي الأطباق نكهة جعلتها في أهم قوائم الأطعمة العالمية. وبهـارات البرياني تتشابه كثيراً في مكوّناتهـا الأســاسـية إلى حـَـدٍّ كبير ولكـن نجد أن في عالم البرياني الفسـيح هناك بعض الإضـافات وذلك تبعـاً للأذواق والعادات الغـذائية للشـعوب أو لإعطاء ميزة وطعم معين يميّز الأطباق عن بعضها ليكون الطبق معرّفا للمكان الّذي أتى منه.';
   int counter = 1;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -23,7 +28,7 @@ class _BodyProductDetailsState extends State<BodyProductDetails> {
         width: double.infinity,
         child: Column(
           children: [
-            AllDetailsProducts(types: types, dec: dec),
+            AllDetailsProducts(foods: widget.foods),
             Container(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
               width: double.infinity,
@@ -32,9 +37,8 @@ class _BodyProductDetailsState extends State<BodyProductDetails> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Adobe XD layer: '✏️ Page Title' (text)
                     Text(
-                      ' السعر  250 ر.س ',
+                      widget.foods.food.price.toString(),
                       style: TextStyle(
                         fontFamily: 'home3',
                         fontSize: 15,
@@ -52,7 +56,7 @@ class _BodyProductDetailsState extends State<BodyProductDetails> {
                       text: "أضف للسلة",
                       color: KYellowColor,
                       onPress: () {
-                        showBottomSheetCart();
+                        showBottomSheetCart(context);
                       },
                     ),
                     SizedBox(height: 8),
@@ -79,9 +83,7 @@ class _BodyProductDetailsState extends State<BodyProductDetails> {
     );
   }
 
-
-
-  void showBottomSheetCart() {
+  void showBottomSheetCart(BuildContext contexth) {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -178,16 +180,48 @@ class _BodyProductDetailsState extends State<BodyProductDetails> {
                         SizedBox(
                           height: 15,
                         ),
-                        DefaultButton(height: 43, text: "تابع الى السلة", onPress: (){
-                          
-                          Navigator.of(context).pushNamed(CartScreen.id);
-                        },
-                            color: KBluColor, colorText: KYellowColor),
+
+                        Container(
+                          width: double.infinity,
+                          height: 47,
+                          child: MaterialButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(35)),
+                              onPressed: () {
+                                context.read<AddCartProvider>().addToCart(
+                                    price: widget.foods.food.price.toString(),
+                                    foodId: widget.foods.food.id.toString(),
+                                    quantity: counter.toString());
+                                Navigator.of(context).pop();
+                                Navigator.of(contexth).pushNamed(cart_screen);
+                                sts(() {
+
+                                });
+                              },
+                              color: KBluColor,
+                              child: context.watch<AddCartProvider>().isLoading
+                                  ? ShowIndicator(
+                                      color: Colors.white,
+                                      width: 30,
+                                      height: 30)
+                                  : Text(
+                                      "تابع الى السلة",
+                                      style: TextStyle(
+                                        fontFamily: 'home',
+                                        fontSize: 17,
+                                        color: Colors.white,
+                                        letterSpacing: 0.8500000000000001,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    )),
+                        ),
+
                         SizedBox(
                           height: 10,
                         ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.of(context).pop();
                           },
                           child: Text(

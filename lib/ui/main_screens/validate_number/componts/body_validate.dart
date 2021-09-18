@@ -5,7 +5,10 @@ import 'package:matbahk24/ui/main_screens/login_page/login_screen.dart';
 import 'package:matbahk24/ui/main_screens/validate_number/componts/card_validate.dart';
 
 class BodyValidate extends StatelessWidget {
+final String code,phone;
 
+
+BodyValidate({required this.code,required this.phone});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class BodyValidate extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  CardValidate(),
+                  CardValidate(code:code,phone:phone),
                   SizedBox(
                     height: 10,
                   ),

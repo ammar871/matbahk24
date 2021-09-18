@@ -1,11 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:matbahk24/bussincc_logic/providers/user/auth_providers/complete_provider.dart';
+
+import 'package:matbahk24/data/models/sign_model.dart';
 import 'package:matbahk24/helpers/constans.dart';
-import 'package:matbahk24/ui/mandoob/home_mandop/home_mandop_screen.dart';
-import 'package:matbahk24/ui/user/navigation_page/navigation_page.dart';
-import 'package:matbahk24/widgets/default_button.dart';
+import 'package:matbahk24/ui/main_screens/sing_up_driver/sing_up_driver_screen.dart';
+
+import 'package:provider/provider.dart';
 
 class FormCompleted extends StatefulWidget {
+
+  final String phone;
+
+
+  FormCompleted({required this.phone});
+
   @override
   _FormCompletedState createState() => _FormCompletedState();
 }
@@ -18,7 +27,7 @@ class _FormCompletedState extends State<FormCompleted> {
   late String lastName;
   late int accountType = 0;
   late bool isAccept = false;
-
+double hieght=50;
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -154,7 +163,7 @@ class _FormCompletedState extends State<FormCompleted> {
                         Border.all(width: 1.0, color: const Color(0x1f000000)),
                   ),
                   child: Center(
-                    child: // Adobe XD layer: '✏️ Label' (text)
+                    child:
                         Text(
                       'مندوب توصيل ',
                       style: TextStyle(
@@ -175,19 +184,63 @@ class _FormCompletedState extends State<FormCompleted> {
               SizedBox(
                 height: 10,
               ),
-              DefaultButton(
-                colorText: Color(0xffffffff),
+              Container(
+                width: double.infinity,
                 height: 50,
-                text: "التالى ",
-                onPress: () {
-                  if(accountType==1)
-                  Navigator.of(context).pushReplacementNamed(NavigationPage.id);
-                  else if(accountType==3){
-                    Navigator.of(context).pushReplacementNamed(HomeMandopScreen.id);
-                  }
-                },
-                color: KHomeColor,
+                child: MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(35)),
+                    onPressed: () {
+                      if (!_formKey.currentState!.validate()) {
+                        setState(() {
+                          hieght=80;
+                        });
+                        return;
+                      } else {
+                        setState(() {
+                          hieght=50;
+                        });
+                        _formKey.currentState!.save();
+                        CompletedAccountProvider dataProvider =
+                        Provider.of<CompletedAccountProvider>(context,listen: false);
+                        dataProvider.completeSign(firstName+" "+ lastName,"+966${widget.phone}")
+                            .whenComplete((){
+                          setState(() {
+
+
+                           print(dataProvider.signModel!.success);
+                           SignModel signModel=dataProvider.signModel!;
+                           if(signModel.success) {
+                             if(accountType==3){
+                               Navigator.push(
+                                 context,
+                                 MaterialPageRoute(builder: (context) => SignUpDriverScreen()),
+                               );
+                             }
+                           // Navigator.of(context).pushNamed(login_screen);
+
+                           }});
+                        });
+
+
+                      }
+                    },
+                    color: KHomeColor,
+                    child: Provider.of<CompletedAccountProvider>(context).isLoading
+                        ? showLoadingIndicator()
+                        : Text(
+                      "التالى",
+                      style: TextStyle(
+                        fontFamily: 'home',
+                        fontSize: 17,
+                        color: Colors.white,
+                        letterSpacing: 0.8500000000000001,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.center,
+                    )),
               ),
+
               SizedBox(
                 height: 10,
               ),
@@ -233,7 +286,7 @@ class _FormCompletedState extends State<FormCompleted> {
 
   Container buildTextFieldFirstName() {
     return Container(
-      height: 50,
+      height: hieght,
       child: TextFormField(
         onSaved: (newValue) => firstName = newValue!,
         keyboardType: TextInputType.text,
@@ -243,8 +296,10 @@ class _FormCompletedState extends State<FormCompleted> {
           });
           return null;
         },
-        validator: (value) {
-          return null;
+        validator: (String? value) {
+          return (value != null && value.isEmpty)
+              ? 'من فضلك أدخل الاسم الاول '
+              : null;
         },
         textAlign: TextAlign.center,
         style: TextStyle(fontFamily: "home", fontSize: 15, color: KTextColor),
@@ -259,7 +314,7 @@ class _FormCompletedState extends State<FormCompleted> {
 
   Container buildTextFieldLastName() {
     return Container(
-      height: 50,
+      height: hieght,
       child: TextFormField(
         onSaved: (newValue) => lastName = newValue!,
         keyboardType: TextInputType.text,
@@ -269,8 +324,10 @@ class _FormCompletedState extends State<FormCompleted> {
           });
           return null;
         },
-        validator: (value) {
-          return null;
+        validator: (String? value) {
+          return (value != null && value.isEmpty)
+              ? 'من فضلك أدخل الاسم الاخير '
+              : null;
         },
         textAlign: TextAlign.center,
         style: TextStyle(fontFamily: "home", fontSize: 15, color: KTextColor),
@@ -278,6 +335,17 @@ class _FormCompletedState extends State<FormCompleted> {
           contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           hintText: "الاسم الأخير ",
           floatingLabelBehavior: FloatingLabelBehavior.always,
+        ),
+      ),
+    );
+  }
+  Widget showLoadingIndicator() {
+    return Container(
+      width: 30,
+      height: 30,
+      child: Center(
+        child: CircularProgressIndicator(
+          color: Colors.white,
         ),
       ),
     );

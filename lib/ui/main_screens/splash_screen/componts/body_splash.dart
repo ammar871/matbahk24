@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:matbahk24/helpers/constans.dart';
+import 'package:matbahk24/helpers/shared_editor.dart';
 import 'package:matbahk24/helpers/styels.dart';
 import 'package:matbahk24/ui/main_screens/login_page/login_screen.dart';
 
@@ -21,11 +22,15 @@ class _BodySplashState extends State<BodySplash> with SingleTickerProviderStateM
 
   startTime() async {
     var _duration = new Duration(seconds: 3);
-    return new Timer(_duration, navigationPage);
+    return new Timer(_duration,isLogin? navigationPageHome:navigationPagelogin);
   }
+  bool isLogin=false;
 
-  void navigationPage() {
-    Navigator.of(context).pushReplacementNamed(LoginScreen.id);
+  void navigationPagelogin() {
+    Navigator.of(context).pushReplacementNamed(login_screen);
+  }
+  void navigationPageHome() {
+    Navigator.of(context).pushReplacementNamed(navigation_screen);
   }
   var startAnimation = false;
   initialTimer() async {
@@ -41,11 +46,21 @@ class _BodySplashState extends State<BodySplash> with SingleTickerProviderStateM
     super.dispose();
   }
 
-
+ShardEditor shardEditor=ShardEditor();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    Future<bool> authToken = shardEditor.getUserIsLogin();
+    authToken.then((data) {
+      isLogin=data;
+      print("authToken " + isLogin.toString());
+    },onError: (e) {
+      print(e);
+    }).whenComplete(() {
+      startTime();
+    });
    initialTimer();
     animationController = new AnimationController(
       vsync: this,
@@ -58,7 +73,7 @@ class _BodySplashState extends State<BodySplash> with SingleTickerProviderStateM
     animationController.forward();
 
 
-    startTime();
+
   }
 
   @override
@@ -126,6 +141,7 @@ class _BodySplashState extends State<BodySplash> with SingleTickerProviderStateM
       ),
     );
   }
+
 }
 class MyClipper  extends CustomClipper<Path> {
   @override

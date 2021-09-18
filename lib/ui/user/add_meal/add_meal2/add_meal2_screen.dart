@@ -8,7 +8,11 @@ import 'package:matbahk24/widgets/rich_title_text.dart';
 import 'componts/componts/BodyAddMeal2.dart';
 
 class AddMeal2Screen extends StatelessWidget {
- static String id="/AddMeal2Screen";
+final String nameMeal,descMeal;
+final List<String> fields;
+
+
+AddMeal2Screen({required this.nameMeal, required this.descMeal, required this.fields});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,7 @@ class AddMeal2Screen extends StatelessWidget {
           ],
         ),
       ),
-      body: BodyAddMeal2(),
+      body: BodyAddMeal2(nameMeal:nameMeal,descMeal:descMeal,fields:fields),
       backgroundColor: Color(0xffF2F4F3),
       endDrawer: MyDrawer(),
     );

@@ -4,15 +4,16 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:matbahk24/helpers/constans.dart';
 
 class RatingBarBest extends StatelessWidget {
-  const RatingBarBest({
-    Key? key,
-  }) : super(key: key);
+final int rate;
+
+
+RatingBarBest({required this.rate});
 
   @override
   Widget build(BuildContext context) {
     return RatingBar(
       itemSize: 11,
-      initialRating: 3,
+      initialRating: rate.toDouble(),
       direction: Axis.horizontal,
       itemCount: 5,
       ratingWidget: RatingWidget(

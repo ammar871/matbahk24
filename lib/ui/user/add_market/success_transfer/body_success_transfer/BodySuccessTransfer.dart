@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:matbahk24/helpers/constans.dart';
 import 'package:matbahk24/ui/user/navigation_page/navigation_page.dart';
 import '../../BarAccountTransfer.dart';
 
@@ -54,7 +55,7 @@ class BodySuccessTransfer extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushReplacementNamed(NavigationPage.id);
+              Navigator.of(context).pushReplacementNamed(navigation_screen);
             },
             child: Text(
               'الرجوع للرئيسية',

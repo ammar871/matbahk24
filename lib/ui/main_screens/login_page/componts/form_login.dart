@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:matbahk24/bussincc_logic/providers/user/auth_providers/login_provider.dart';
+
+import 'package:matbahk24/data/models/login.dart';
 import 'package:matbahk24/helpers/constans.dart';
-import 'package:matbahk24/ui/main_screens/sign_up/sign_up_screen.dart';
-import 'package:matbahk24/ui/user/navigation_page/navigation_page.dart';
-import 'package:matbahk24/widgets/custom_suffixicon.dart';
-import 'package:matbahk24/widgets/default_button.dart';
+import 'package:matbahk24/ui/main_screens/validate_number/validte_number_screen.dart';
+import 'package:provider/provider.dart';
 
 class FormLogin extends StatefulWidget {
   @override
@@ -12,14 +14,33 @@ class FormLogin extends StatefulWidget {
 }
 
 class _FormLoginState extends State<FormLogin> {
+  bool isLoading = false;
+  Login data = Login(status: 3, code: "dddd");
+
+  Widget showLoadingIndicator() {
+    return Container(
+      width: 30,
+      height: 30,
+      child: Center(
+        child: CircularProgressIndicator(
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final _formKey = GlobalKey<FormState>();
 
-  late String phone;
-  late String pass;
+  String? phone;
+  int status = 3;
 
   @override
   Widget build(BuildContext context) {
-
     return Form(
         key: _formKey,
         child: Padding(
@@ -33,14 +54,56 @@ class _FormLoginState extends State<FormLogin> {
               SizedBox(
                 height: 20,
               ),
-              buildTextFieldPassword(),
-              SizedBox(
-                height: 20,
+              Container(
+                width: double.infinity,
+                height: 50,
+                child: MaterialButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(35)),
+                    onPressed: () {
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      } else {
+                        _formKey.currentState!.save();
+                        LoginProvider dataProvider =
+                            Provider.of<LoginProvider>(context, listen: false);
+                        dataProvider
+                            .checkUserPhone("+966$phone")
+                            .whenComplete(() {
+                          setState(() {
+                            String code = dataProvider.loginData!.code;
+                            print(code);
+                            if (dataProvider.loginData!.status == 1) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ValidateNumberScreen(
+                                        code: code, phone: phone!)),
+                              );
+                            } else if (dataProvider.loginData!.status == 0) {
+                              Navigator.of(context).pushNamed(signup_screen);
+                            }
+                          });
+                        });
+                        // data=dataProvider.loginData;
+
+                      }
+                    },
+                    color: KHomeColor,
+                    child: Provider.of<LoginProvider>(context).isLoading
+                        ? showLoadingIndicator()
+                        : Text(
+                            "دخول",
+                            style: TextStyle(
+                              fontFamily: 'home',
+                              fontSize: 17,
+                              color: Colors.white,
+                              letterSpacing: 0.8500000000000001,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.center,
+                          )),
               ),
-              DefaultButton(colorText:Color(0xffffffff),height: 50,text: "دخول",
-                onPress: (){
-               Navigator.of(context).pushNamed(SignUpScreen.id);
-              },color: KHomeColor,),
               SizedBox(
                 height: 10,
               ),
@@ -69,8 +132,10 @@ class _FormLoginState extends State<FormLogin> {
         });
         return null;
       },
-      validator: (value) {
-        return null;
+      validator: (String? value) {
+        return (value != null && value.length < 10)
+            ? 'من فضلك أدخل رقم صحيح '
+            : null;
       },
       textAlign: TextAlign.center,
       style: TextStyle(fontFamily: "home", fontSize: 15, color: KTextColor),
@@ -82,7 +147,7 @@ class _FormLoginState extends State<FormLogin> {
     );
   }
 
-  TextFormField buildTextFieldPassword() {
+/*  TextFormField buildTextFieldPassword() {
     return TextFormField(
       obscureText: true,
       onSaved: (newValue) => pass = newValue!,
@@ -105,5 +170,5 @@ class _FormLoginState extends State<FormLogin> {
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
-  }
+  }*/
 }

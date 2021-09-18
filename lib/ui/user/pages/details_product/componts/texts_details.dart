@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:matbahk24/data/models/models_home/model_home.dart';
 import 'package:matbahk24/ui/user/pages/details_product/componts/row_activate.dart';
 
 import 'image_product.dart';
 
 class NameProductText extends StatelessWidget {
-  const NameProductText({
-    Key? key,
-    required this.types,
-  }) : super(key: key);
+  final Foods food;
 
-  final List<String> types;
+
+  NameProductText({required this.food});
 
   @override
   Widget build(BuildContext context) {
@@ -26,31 +25,34 @@ class NameProductText extends StatelessWidget {
             height: 10,
           ),
           // Adobe XD layer: '✏️ Page Title' (text)
-          SizedBox(
-            height: 80,
-            child: Text(
-              ' خروف محشي مشوي علي الطريقة '
-                  'السعودية '
-                  'الحائلية',
-              maxLines: 3,
-              style: TextStyle(
-                fontFamily: 'home3',
-                fontSize: 20,
-                color: const Color(0xff200e32),
-                letterSpacing: 0.15000000953674317,
-                fontWeight: FontWeight.w700,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: 80,
+                child: Text(
+                  food.food.name,
+                  maxLines: 3,
+                  style: TextStyle(
+                    fontFamily: 'home3',
+                    fontSize: 20,
+                    color: const Color(0xff200e32),
+                    letterSpacing: 0.15000000953674317,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.right,
+                ),
               ),
-              textAlign: TextAlign.right,
-            ),
+            ],
           ),
           SizedBox(
             height: 6,
           ),
-          DescProductTexts(types: types),
+          DescProductTexts(),
           SizedBox(
             height: 18,
           ),
-          ImageProduct(),
+          // ImageProduct(image ),
         ],
       ),
     );
@@ -111,40 +113,10 @@ class TitleTextOrder extends StatelessWidget {
   TitleTextOrder(this.text);
 }
 
-class TitleText extends StatelessWidget {
-  final String text;
 
-  TitleText(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(
-            text,
-            style: TextStyle(
-              fontFamily: 'home3',
-              fontSize: 20,
-              color: const Color(0xffffffff),
-              letterSpacing: 0.15000000953674317,
-            ),
-            textAlign: TextAlign.right,
-          ),
-        ],
-      ),
-    );
-  }
-}
 class DescProductTexts extends StatelessWidget {
-  const DescProductTexts({
-    Key? key,
-    required this.types,
-  }) : super(key: key);
 
-  final List<String> types;
+
 
   @override
   Widget build(BuildContext context) {
@@ -168,9 +140,9 @@ class DescProductTexts extends StatelessWidget {
             textAlign: TextAlign.right,
           ),
         ),
-        Row(
+       /* Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: types.map((e) {
+          children: .map((e) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(
@@ -189,16 +161,16 @@ class DescProductTexts extends StatelessWidget {
               ),
             );
           }).toList(),
-        ),
+        )*/
       ],
     );
   }
 }
 
-class DescOrder extends StatelessWidget {
-  const DescOrder({
-    Key? key,
-  }) : super(key: key);
+class DescWayOrder extends StatelessWidget {
+final Food food;
+
+DescWayOrder(this.food);
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +186,7 @@ class DescOrder extends StatelessWidget {
                 ),
                 TextDetails(
                   text:
-                  "بصحن كبير2 كيلو غرام - يغلف بورق قصدير - اللحم المقدم طلي عربي و يوصل حار جاهز للاكل.",
+                  food.serveWay,
                 ),
               ],
             )),
@@ -233,7 +205,7 @@ class DescOrder extends StatelessWidget {
                 ),
                 TextDetails(
                   text:
-                  "2 بيبسي - 4 دقوس - 2 لبن - 1 خدمة - 5مناديل - 4 مناشف - 9 صحون بلاستيك او ورقية",
+                  food.attatchments,
                 ),
               ],
             ))

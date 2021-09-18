@@ -37,7 +37,7 @@ class BodyLogin extends StatelessWidget {
                   ),
                   CardLogin(),
                   SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
                   InkWell(
                     onTap: (){
@@ -46,8 +46,8 @@ class BodyLogin extends StatelessWidget {
                     child: Text(
                       'اريد ان انشاء حساب جديد',
                       style: TextStyle(
-                        fontFamily: 'Droid Arabic Kufi',
-                        fontSize: 14,
+                        fontFamily: 'home',
+                        fontSize: 12,
                         color: const Color(0xff464646),
                         letterSpacing: 0.7000000000000001,
                         fontWeight: FontWeight.w700,

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'componts/body_login.dart';
 
 class LoginScreen extends StatelessWidget {
-  static String id="/login";
+  static const String id="/login";
 
   @override
   Widget build(BuildContext context) {

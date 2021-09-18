@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:matbahk24/helpers/commen.dart';
 import 'package:matbahk24/helpers/constans.dart';
+import 'package:matbahk24/helpers/shared_editor.dart';
 import 'package:matbahk24/helpers/styels.dart';
 import 'package:matbahk24/ui/user/add_meal/add_meal1/add_meal_screen.dart';
 
@@ -34,6 +36,45 @@ class _NavigationPageState extends State<NavigationPage> {
       color: Colors.brown,
     )
   ];
+  ShardEditor shardEditor = ShardEditor();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future<String> authToken = shardEditor.getToken(UserToken);
+    authToken.then((data) {
+      Cemmon.UserToken = data;
+    }, onError: (e) {
+      print(e);
+    });
+    Future<String> authUserId = shardEditor.getUserId();
+    authUserId.then((data) {
+      Cemmon.UserId = data;
+    }, onError: (e) {
+      print(e);
+    });
+
+    Future<String> authUserPhone = shardEditor.getUserId();
+    authUserPhone.then((data) {
+      Cemmon.Userphone = data;
+    }, onError: (e) {
+      print(e);
+    });
+    Future<String> authUserRole = shardEditor.getUserRole();
+    authUserRole.then((data) {
+      Cemmon.UserRole = data;
+    }, onError: (e) {
+      print(e);
+    });
+    Future<String> marketId = shardEditor.getMarket(MarketId);
+    marketId.then((data) {
+      Cemmon.MarketId = data;
+    }, onError: (e) {
+      print(e);
+    });
+    print(" id:${Cemmon.UserId} \n token :${Cemmon.UserToken}");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +86,10 @@ class _NavigationPageState extends State<NavigationPage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            RichTextTitle(Color(0xff000000)),
+            InkWell(
+                onTap:(){
+                  Navigator.of(context).pushNamed(cart_screen);
+                },child: RichTextTitle(Color(0xff000000))),
           ],
         ),
       ),
@@ -55,7 +99,7 @@ class _NavigationPageState extends State<NavigationPage> {
       ),
       floatingActionButton: getFloatButton(),
       floatingActionButtonLocation:
-      FloatingActionButtonLocation.miniCenterDocked,
+          FloatingActionButtonLocation.miniCenterDocked,
       bottomNavigationBar: buildBottomAppBar(),
       endDrawer: MyDrawer(),
     );
@@ -71,8 +115,13 @@ class _NavigationPageState extends State<NavigationPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           onPressed: () {
+            if(Cemmon.UserRole=="provider"){
+              Navigator.of(context).pushNamed(add_meal1_screen);
+            }else{
+              Navigator.of(context).pushNamed(trans_account1_screen);
 
-            Navigator.of(context).pushNamed(AddMealScreen.id);
+            }
+
           },
           child: Container(
             padding: EdgeInsets.all(20),
@@ -119,7 +168,7 @@ class _NavigationPageState extends State<NavigationPage> {
                   });
                 },
                 child:
-                StylesWidget.getSvg("assets/icons/Category.svg", 23, 23)),
+                    StylesWidget.getSvg("assets/icons/Category.svg", 23, 23)),
             StylesWidget.getSvg("assets/icons/Home.svg", 23, 23),
             SvgPicture.asset(
               "assets/icons/Document.svg",
@@ -131,7 +180,6 @@ class _NavigationPageState extends State<NavigationPage> {
                 onTap: () {
                   showBottomSheetNotifications();
                 },
-
                 child: StylesWidget.getSvg(
                     "assets/icons/Notification.svg", 23, 23))
           ],
@@ -149,10 +197,7 @@ class _NavigationPageState extends State<NavigationPage> {
           return StatefulBuilder(
             builder: (BuildContext ctx, StateSetter sts) {
               return Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * .9,
+                  height: MediaQuery.of(context).size.height * .9,
                   padding: EdgeInsets.only(
                     top: 5.0,
                     bottom: 5.0,
@@ -166,9 +211,13 @@ class _NavigationPageState extends State<NavigationPage> {
                     margin: EdgeInsets.symmetric(horizontal: 25),
                     child: Column(
                       children: [
-                        SizedBox(height: 40,),
+                        SizedBox(
+                          height: 40,
+                        ),
                         TitleNotification(),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         ListNotification()
                       ],
                     ),
@@ -206,26 +255,22 @@ class ItemListNotification extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Color(0xFFE2E2E2),
-          borderRadius: BorderRadius.circular(15)
-      ),
+          color: Color(0xFFE2E2E2), borderRadius: BorderRadius.circular(15)),
       margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.symmetric(horizontal: 20,),
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
       height: 90,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
-
             children: [
-
-
               Text(
                 ' 2 د',
                 textDirection: TextDirection.rtl,
                 style: TextStyle(
-
                   fontFamily: 'home',
                   fontSize: 13,
                   color: const Color(0x99000000),
@@ -233,29 +278,31 @@ class ItemListNotification extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                   height: 1.5384615384615385,
                 ),
-                textHeightBehavior: TextHeightBehavior(
-                    applyHeightToFirstAscent: false),
+                textHeightBehavior:
+                    TextHeightBehavior(applyHeightToFirstAscent: false),
                 textAlign: TextAlign.right,
               ),
-              SizedBox(width: 10,),
+              SizedBox(
+                width: 10,
+              ),
               Expanded(
-                  child:
-                  Text(
-                    '256698',
-                    style: TextStyle(
-                      fontFamily: 'home',
-                      fontSize: 13,
-                      color: const Color(
-                          0xffff0000),
-                      letterSpacing: 0.121875,
-                      fontWeight: FontWeight.w700,
-                      height: 1.5384615384615385,
-                    ),
-                    textHeightBehavior: TextHeightBehavior(
-                        applyHeightToFirstAscent: false),
-                    textAlign: TextAlign.right,
-                  )),
-              SizedBox(width: 20,),
+                  child: Text(
+                '256698',
+                style: TextStyle(
+                  fontFamily: 'home',
+                  fontSize: 13,
+                  color: const Color(0xffff0000),
+                  letterSpacing: 0.121875,
+                  fontWeight: FontWeight.w700,
+                  height: 1.5384615384615385,
+                ),
+                textHeightBehavior:
+                    TextHeightBehavior(applyHeightToFirstAscent: false),
+                textAlign: TextAlign.right,
+              )),
+              SizedBox(
+                width: 20,
+              ),
               Text(
                 'الطلب رقم',
                 style: TextStyle(
@@ -266,15 +313,15 @@ class ItemListNotification extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                   height: 1.5384615384615385,
                 ),
-                textHeightBehavior: TextHeightBehavior(
-                    applyHeightToFirstAscent: false),
+                textHeightBehavior:
+                    TextHeightBehavior(applyHeightToFirstAscent: false),
                 textAlign: TextAlign.right,
               )
-
             ],
           ),
-          SizedBox(height: 10,)
-         ,
+          SizedBox(
+            height: 10,
+          ),
           Text(
             'الطلب الان في طور التوصيل برجاء الرد علي الهاتف لعملية تةصيل سلسة',
             style: TextStyle(
@@ -284,7 +331,8 @@ class ItemListNotification extends StatelessWidget {
               letterSpacing: 0.09375,
               height: 1.2,
             ),
-            textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+            textHeightBehavior:
+                TextHeightBehavior(applyHeightToFirstAscent: false),
             textAlign: TextAlign.right,
           )
         ],
@@ -294,15 +342,11 @@ class ItemListNotification extends StatelessWidget {
 }
 
 class TitleNotification extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-
-
         Text(
           '2 جديد',
           textDirection: TextDirection.rtl,
@@ -314,8 +358,8 @@ class TitleNotification extends StatelessWidget {
             fontWeight: FontWeight.w700,
             height: 1.6923076923076923,
           ),
-          textHeightBehavior: TextHeightBehavior(
-              applyHeightToFirstAscent: false),
+          textHeightBehavior:
+              TextHeightBehavior(applyHeightToFirstAscent: false),
           textAlign: TextAlign.right,
         ),
         Text(
@@ -328,17 +372,11 @@ class TitleNotification extends StatelessWidget {
             fontWeight: FontWeight.w700,
             height: 1.72,
           ),
-          textHeightBehavior: TextHeightBehavior(
-              applyHeightToFirstAscent: false),
+          textHeightBehavior:
+              TextHeightBehavior(applyHeightToFirstAscent: false),
           textAlign: TextAlign.right,
         )
       ],
     );
   }
 }
-
-
-
-
-
-

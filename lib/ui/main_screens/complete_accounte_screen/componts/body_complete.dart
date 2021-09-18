@@ -5,23 +5,26 @@ import 'package:matbahk24/ui/main_screens/complete_accounte_screen/componts/Card
 import 'package:matbahk24/ui/main_screens/sign_up/componts/card_signUp.dart';
 
 class BodyCompleteAccount extends StatelessWidget {
+final String phone;
 
+
+BodyCompleteAccount({required this.phone});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        width: double.infinity,
-        child: Stack(
-          children: [
-            Positioned(
-                right: -10,
-                top: 200,
-                child: SvgPicture.asset(
-                  "assets/icons/path2.svg",
+    return SizedBox(
+      width: double.infinity,
+      child: Stack(
+        children: [
+          Positioned(
+              right: -10,
+              top: 200,
+              child: SvgPicture.asset(
+                "assets/icons/path2.svg",
 
-                ) ),
-            Column(
+              ) ),
+          SingleChildScrollView(
+            child: Column(
               children: [
                 SizedBox(
                   height: 110,
@@ -34,15 +37,15 @@ class BodyCompleteAccount extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                CardComplete(),
+                CardComplete(phone:phone),
                 SizedBox(
                   height: 8,
                 ),
 
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

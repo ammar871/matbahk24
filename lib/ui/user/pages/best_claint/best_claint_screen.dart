@@ -7,9 +7,27 @@ import 'package:matbahk24/widgets/rich_title_text.dart';
 
 import 'componts/body_best_client.dart';
 
-class BestClientsScreen extends StatelessWidget {
+class BestClientsScreen extends StatefulWidget {
  static String id ="/best_client";
- final GlobalKey<ScaffoldState> _key = GlobalKey();
+
+ final String fieldId;
+
+ BestClientsScreen({required this.fieldId});
+
+  @override
+  _BestClientsScreenState createState() => _BestClientsScreenState();
+}
+
+class _BestClientsScreenState extends State<BestClientsScreen> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -33,7 +51,7 @@ class BestClientsScreen extends StatelessWidget {
           ],
         ),
       ),
-     body: BodyBestClient(),
+     body: BodyBestClient(fieldId:widget.fieldId),
       endDrawer: MyDrawer(),
     );
   }

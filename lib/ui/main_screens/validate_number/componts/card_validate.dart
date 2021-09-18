@@ -5,6 +5,11 @@ import 'package:flutter_svg/svg.dart';
 import 'otp_form.dart';
 
 class CardValidate extends StatelessWidget {
+  final String code, phone;
+
+
+  CardValidate({required this.code,required this.phone});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,7 +27,8 @@ class CardValidate extends StatelessWidget {
                 "assets/icons/validate_icon.svg",
               ),
               Text(
-                'ادخل رمز التحقق المرسل علي جوالك',
+                ' ادخل رمز التحقق المرسل : $code',
+                textDirection: TextDirection.rtl,
                 style: TextStyle(
                   fontFamily: 'home',
                   fontSize: 16,
@@ -34,7 +40,7 @@ class CardValidate extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              OtpForm(),
+              OtpForm(code:code,phone:phone),
               SizedBox(
                 height: 10,
               ),
@@ -42,9 +48,9 @@ class CardValidate extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '00.59',
+                    "1:59",
                     style: TextStyle(
-                      fontFamily: 'Droid Arabic Kufi',
+                      fontFamily: 'home',
                       fontSize: 18,
                       color: const Color(0xff878787),
                       letterSpacing: 0.9,
@@ -57,7 +63,7 @@ class CardValidate extends StatelessWidget {
                   Text(
                     'ارسل رمز جديد',
                     style: TextStyle(
-                      fontFamily: 'Droid Arabic Kufi',
+                      fontFamily: 'home',
                       fontSize: 16,
                       color: const Color(0xff878787),
                       letterSpacing: 0.8,

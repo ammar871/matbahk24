@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:matbahk24/ui/main_screens/complete_accounte_screen/componts/form_comlete.dart';
 
 class CardComplete extends StatelessWidget {
+final String phone;
 
+
+CardComplete({required this.phone});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class CardComplete extends StatelessWidget {
                 TextHeightBehavior(applyHeightToFirstAscent: false),
                 textAlign: TextAlign.center,
               ),
-              FormCompleted(),
+              FormCompleted(phone:phone),
               SizedBox(
                 height: 10,
               ),

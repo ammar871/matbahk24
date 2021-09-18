@@ -1,47 +1,54 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:matbahk24/data/models/models_home/model_home.dart';
 import 'package:matbahk24/helpers/constans.dart';
 import 'package:matbahk24/ui/user/pages/details_product/componts/texts_details.dart';
 
+import 'TitleText.dart';
 import 'images_product_list.dart';
 import 'my_custom_clipper.dart';
 
 class AllDetailsProducts extends StatelessWidget {
-  const AllDetailsProducts({
-    Key? key,
-    required this.types,
-    required this.dec,
-  }) : super(key: key);
+ final Foods foods;
 
-  final List<String> types;
-  final String dec;
+
+ AllDetailsProducts({required this.foods});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          height: MediaQuery.of(context).size.height * .47,
+
+          height: MediaQuery.of(context).size.height * .56,
           child: Stack(
             children: [
               Positioned(
+
                 top: 0,
                 child: ClipPath(
                   child: Container(
+
                     width: MediaQuery.of(context).size.width,
-                    height: 320,
+                    height: MediaQuery.of(context).size.width*.83,
                     color: KYellowColor,
                   ),
                   clipper: MyCustomClipper(),
                 ),
               ),
-              NameProductText(types: types),
+              NameProductText(food: foods),
+              Positioned(
+                  bottom:0,
+                  left: 0,
+                  right: 0,
+                  child: ImagesProductsList(photos:foods.photos)),
             ],
+
           ),
         ),
-        Container(
-          height: 70,
-          child: ImagesProductsList(),
-        ),
+
+
+
         SizedBox(
           height: 20,
         ),
@@ -50,8 +57,7 @@ class AllDetailsProducts extends StatelessWidget {
           height: 15,
         ),
         TextDetails(
-            text: '$dec\n'
-                'البرياني هو طبق من اللحم والخضروات المطهية مع الأرز والذي تُستخدم في طهيه خلطة بهـارات البرياني الهندية، وهو اسم يُطلق في شبه القارة الهندية على الأرز الذي يُطهى بطرق مخصوصة'),
+            text: foods.food.desc),
         SizedBox(
           height: 25,
         ),
@@ -69,7 +75,8 @@ class AllDetailsProducts extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                'افراد  6',
+                "${foods.food.persons} افراد ",
+                textDirection: TextDirection.rtl,
                 style: TextStyle(
                   fontFamily: 'home3',
                   fontSize: 12,
@@ -85,7 +92,7 @@ class AllDetailsProducts extends StatelessWidget {
         SizedBox(
           height: 15,
         ),
-        DescOrder(),
+        DescWayOrder(foods.food),
         SizedBox(
           height: 15,
         ),
@@ -95,7 +102,7 @@ class AllDetailsProducts extends StatelessWidget {
         ),
         TextDetails(
           text:
-          "بامكانك طلبه حار مع فلفل اترك أي ملاحظات في خانه الملاحظات اثناء الطلب",
+          foods.food.notes,
         ),
         SizedBox(
           height: 25,

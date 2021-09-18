@@ -1,11 +1,17 @@
 import 'package:flutter/cupertino.dart';
+import 'package:matbahk24/data/models/models_home/model_home.dart';
 
 import 'item_category.dart';
 
 class ListCategories extends StatelessWidget {
-  const ListCategories({
-    Key? key,
-  }) : super(key: key);
+
+  final List<Fields> fields;
+
+
+
+
+  ListCategories({ required this.fields});
+
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +19,11 @@ class ListCategories extends StatelessWidget {
       height: 96.0,
       child: Center(
         child: ListView.builder(
-            itemCount: 3,
+            itemCount: fields.length,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (_, index) {
-              return ItemCategory();
+              return ItemCategory(fields:fields[index]);
             }),
       ),
     );

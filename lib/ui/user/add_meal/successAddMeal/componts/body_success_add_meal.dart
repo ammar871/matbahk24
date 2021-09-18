@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:matbahk24/helpers/constans.dart';
 import 'package:matbahk24/ui/user/add_meal/add_meal1/componts/BarAddMeal.dart';
 import 'package:matbahk24/ui/user/navigation_page/navigation_page.dart';
 
@@ -53,7 +54,7 @@ class BodySuccessAddMeal extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushReplacementNamed(NavigationPage.id);
+              Navigator.of(context).pushReplacementNamed(navigation_screen);
             },
             child: Text(
               'الرجوع للرئيسية',

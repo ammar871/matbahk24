@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:matbahk24/ui/main_screens/sign_up/componts/body_sign_up.dart';
 
 class SignUpScreen extends StatelessWidget {
- static String id ="/sign_up";
+ static const String id ="/sign_up";
 
   @override
   Widget build(BuildContext context) {

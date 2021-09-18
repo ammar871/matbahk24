@@ -19,12 +19,16 @@ class _HomeUserScreenState extends State<HomeUserScreen> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, //or set color with: Color(0xFF0000FF)
     ));
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async => false,
 
-      backgroundColor: Color(0xFFF2F4F3),
+      child: Scaffold(
 
-      body:BodyUserHome(),
+        backgroundColor: Color(0xFFF2F4F3),
 
+        body:BodyUserHome(),
+
+      ),
     );
   }
 }

@@ -1,14 +1,24 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:matbahk24/data/models/models_home/model_home.dart';
 import 'package:matbahk24/helpers/constans.dart';
 import 'package:matbahk24/ui/user/pages/details_product/product_details.screen.dart';
 
 class ItemListProductsOfClient extends StatelessWidget {
+  final Foods foods;
+
+
+  ItemListProductsOfClient({required this.foods});
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(ProductDetailsScreen.id);
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>
+                ProductDetailsScreen(food: foods)));
       },
       child: Container(
         decoration: BoxDecoration(),
@@ -16,15 +26,53 @@ class ItemListProductsOfClient extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      "assets/images/image.png",
-                      height: 110,
-                      fit: BoxFit.cover,
+                Positioned(
+                  child: Container(
+                    height: 110,
+                    decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: foods.photos.length == 0 ?Container(
+                        height: 110,
+                        child: Center(
+                            child: Center(
+                                child: Icon(
+                                  Icons.error,
+                                  size: 25,
+                                ))
+                        ),
+                      ):CachedNetworkImage(
+                        imageUrl:  base_url_image + foods.photos[0].url,
+                        height: 110,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Center(
+                          child: Container(
+                              width: 25,
+                              height: 25,
+                              child: CircularProgressIndicator()),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                            height: 110,
+                            child: Center(
+                                child: Icon(
+                                  Icons.error,
+                                  size: 25,
+                                ))),
+                      ),
+                      // :foods.photos.length==0? Image.asset("assets/images/img.png",
+                      //
+                      //
+                      //   height: 110,
+                      //   fit: BoxFit.cover,
+                      // )
+                      //
+                      // :Image.network(base_url_image+foods.photos[0].url,
+                      //
+                      //
+                      //   height: 110,
+                      //   fit: BoxFit.cover,
+                      // ),
                     ),
                   ),
                 ),
@@ -37,7 +85,7 @@ class ItemListProductsOfClient extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            '980\n رس',
+                            '${foods.food.price}\n رس',
                             style: TextStyle(
                               fontFamily: 'roboto',
                               fontSize: 10,
@@ -55,23 +103,27 @@ class ItemListProductsOfClient extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'خروف محشي ',
+              foods.food.name,
               style: TextStyle(
                 fontFamily: 'home3',
                 fontSize: 12,
-                color: Colors.white,
+                  color: const Color(0xffe2e2e2),
                 fontWeight: FontWeight.w700,
                 height: 1.0833333333333333,
               ),
               textHeightBehavior:
-                  TextHeightBehavior(applyHeightToFirstAscent: false),
+              TextHeightBehavior(applyHeightToFirstAscent: false),
               textAlign: TextAlign.center,
             ),
             SizedBox(
               height: 5,
             ),
+
+
+
             Text(
-              'سوري    .   حلويات شرقية',
+              'سوري . حلويات شرقية',
+              textDirection: TextDirection.rtl,
               style: TextStyle(
                 fontFamily: 'home',
                 fontSize: 8,
@@ -81,7 +133,7 @@ class ItemListProductsOfClient extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textHeightBehavior:
-                  TextHeightBehavior(applyHeightToFirstAscent: false),
+              TextHeightBehavior(applyHeightToFirstAscent: false),
               textAlign: TextAlign.center,
             )
           ],

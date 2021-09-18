@@ -1,5 +1,9 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:matbahk24/helpers/constans.dart';
+import 'package:matbahk24/helpers/shared_editor.dart';
 import 'package:matbahk24/helpers/styels.dart';
 
 import '../rich_title_text.dart';
@@ -7,7 +11,7 @@ import 'clipper_path.dart';
 import 'item_draw.dart';
 
 class MyDrawer extends StatelessWidget {
-
+ShardEditor shardEditor=ShardEditor();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,12 @@ class MyDrawer extends StatelessWidget {
                       width: 8,
                     ),
                     InkWell(
-                        onTap: () => Navigator.of(context).pop(),
+                        onTap: (){
+                          shardEditor.remove(UserLogin);
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pushNamed(login_screen);
+
+                        } ,
                         child: StylesWidget.getSvg(
                             "assets/icons/cancel.svg", 30, 30)),
                   ],

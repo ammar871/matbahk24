@@ -1,15 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:matbahk24/bussincc_logic/providers/market/add_market_provider/add_market_provider.dart';
 
 import 'package:matbahk24/helpers/constans.dart';
-import 'package:matbahk24/ui/user/account_transfer/success_transfer/success_transfer.dart';
-import 'package:matbahk24/ui/user/add_meal/add_meal1/componts/FormAddMeal1.dart';
-import 'package:matbahk24/widgets/custom_text_field.dart';
-import 'package:matbahk24/widgets/default_button.dart';
 
+import 'package:matbahk24/widgets/show_indicator.dart';
+import 'package:provider/provider.dart';
 import '../../BarAccountTransfer.dart';
 
-class BodySecondPage extends StatelessWidget {
+class BodySecondPage extends StatefulWidget {
+  final String name, imag1, image2;
+  final List<String> fileds;
+
+  BodySecondPage(
+      {required this.name,
+      required this.imag1,
+      required this.image2,
+      required this.fileds});
+
+  @override
+  _BodySecondPageState createState() => _BodySecondPageState();
+}
+
+class _BodySecondPageState extends State<BodySecondPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -19,7 +32,12 @@ class BodySecondPage extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          FormField()
+          FormField(
+            name: widget.name,
+            imag1: widget.imag1,
+            image2: widget.image2,
+            fileds: widget.fileds,
+          )
         ],
       ),
     );
@@ -27,6 +45,15 @@ class BodySecondPage extends StatelessWidget {
 }
 
 class FormField extends StatefulWidget {
+  final String name, imag1, image2;
+  List<String> fileds;
+
+  FormField(
+      {required this.name,
+      required this.imag1,
+      required this.image2,
+      required this.fileds});
+
   @override
   _FormFieldState createState() => _FormFieldState();
 }
@@ -34,13 +61,11 @@ class FormField extends StatefulWidget {
 class _FormFieldState extends State<FormField> {
   final TextEditingController controller = TextEditingController();
 
-
-  final List<String> list = ["one", "two", "three"];
+  late String summery;
 
   late final String currentValue;
   bool isAccept = false;
-    late int selected=5;
-
+  late int selected = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +73,7 @@ class _FormFieldState extends State<FormField> {
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          CustomTextField(
-              controller: controller,
-              hint: "وصف مختصر عنك وعن مايمكن ان تقدمه",
-              hieght: 150),
+          buildTextFieldSummery(),
           SizedBox(
             height: 5,
           ),
@@ -75,16 +97,18 @@ class _FormFieldState extends State<FormField> {
               )
             ],
           ),
-          SizedBox(
+
+
+          /*  SizedBox(
             height: 20,
           ),
-          CustomDropDownWidget(
+         */ /* CustomDropDownWidget(
             list: list,
             onSelect: (value) {
               currentValue = value;
             },
             hint: "تاريخ الميلاد",
-          ),
+          ),*/ /*
           SizedBox(
             height: 20,
           ),
@@ -220,58 +244,144 @@ class _FormFieldState extends State<FormField> {
               )
             ],
           ),
+          */
           SizedBox(
             height: 30,
           ),
-          DefaultButton(
-              height: 55,
-              text: "التالى",
-              onPress: () {
+          Container(
+            width: double.infinity,
+            height: 55,
+            child: MaterialButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35)),
+                onPressed: () {
+                  print(widget.fileds[0]);
+                  context.read<AddMarketProvider>().addMarket(
+                      name: widget.name,
+                      image: widget.image2,
+                      imageBanner: widget.image2,
+                      summery: summery,
+                      fields: widget.fileds).whenComplete((){
+                    if (context.read<AddMarketProvider>().isSuccess) {
+                      setState(() {
+                        Navigator.of(context).pushReplacementNamed(success_trans_account_screen);
+                      });
+                    } else {
+                      setState(() {
+                        final snackBar = SnackBar(
+                          backgroundColor: Colors.black.withOpacity(.5),
+                            content: Text("خطأ فى العملية",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "home")));
 
-                Navigator.of(context).pushNamed(SuccessTransfer.id);
-              },
-              color: KHomeColor,
-              colorText: Colors.white),
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            snackBar);
+                      });
+                    }
+
+
+                  });
+
+                },
+                color: KHomeColor,
+                child: context.watch<AddMarketProvider>().isLoading
+                    ? ShowIndicator(color: Colors.white, width: 24, height: 25)
+                    : Text(
+                        "دخول",
+                        style: TextStyle(
+                          fontFamily: 'home',
+                          fontSize: 17,
+                          color: Colors.white,
+                          letterSpacing: 0.8500000000000001,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.center,
+                      )),
+          ),
           SizedBox(
             height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'أوافق علي تعليمات و قواعد المنصة',
-                style: TextStyle(
-                  fontFamily: 'home2',
-                  fontSize: 12,
-                  color: const Color(0xff878787),
-                  letterSpacing: 0.5,
-                  fontWeight: FontWeight.w300,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                width: 12,
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isAccept = !isAccept;
-                  });
-                },
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  height: 15,
-                  width: 15,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(21.0),
-                    color: isAccept ? KHomeColor : Color(0xffe2e2e2),
-                  ),
-                ),
-              )
-            ],
-          )
+          buildRowIsAccept()
         ],
       ),
+    );
+  }
+
+  Container buildTextFieldSummery() {
+    return Container(
+      height: 150,
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(35)),
+      child: TextFormField(
+        textAlign: TextAlign.right,
+        onSaved: (newValue) => summery = newValue!,
+        keyboardType: TextInputType.text,
+        onChanged: (value) {
+          setState(() {
+            summery = value;
+          });
+          return null;
+        },
+        validator: (String? value) {
+          return null;
+        },
+        style: TextStyle(
+          fontFamily: 'home',
+          fontSize: 10,
+          color: const Color(0x99000000),
+          height: 2.2,
+        ),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+          hintText: "وصف مختصر عنك وعن ما يمكن ان تقدمه",
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+        ),
+      ),
+    );
+  }
+
+  Row buildRowIsAccept() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'أوافق علي تعليمات و قواعد المنصة',
+          style: TextStyle(
+            fontFamily: 'home2',
+            fontSize: 12,
+            color: const Color(0xff878787),
+            letterSpacing: 0.5,
+            fontWeight: FontWeight.w300,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(
+          width: 12,
+        ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              isAccept = !isAccept;
+            });
+          },
+          child: Container(
+            padding: EdgeInsets.all(5),
+            height: 15,
+            width: 15,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(21.0),
+              color: isAccept ?  Color(0xffe2e2e2):KHomeColor,
+            ),
+          ),
+        )
+      ],
     );
   }
 }

@@ -1,22 +1,32 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:matbahk24/data/models/ModelMarkets/model_markets.dart';
+import 'package:matbahk24/helpers/constans.dart';
 import 'package:matbahk24/ui/user/pages/best_claint/componts/rating_bar_best.dart';
 import 'package:matbahk24/ui/user/pages/page_details_client/details_client_screen.dart';
 
 import 'container_type.dart';
 
 class ItemListBestClient extends StatelessWidget {
-  const ItemListBestClient({
-    Key? key,
-  }) : super(key: key);
+final ModelMarkets market;
+
+
+ItemListBestClient({required this.market});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(DetailsClientScreen.id);
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>
+                DetailsClientScreen(marketId: market.market.id.toString()))
+        );
       },
       child: Container(
+
         margin: EdgeInsets.symmetric(horizontal: 8),
         child: Column(
           children: [
@@ -24,22 +34,49 @@ class ItemListBestClient extends StatelessWidget {
               height: 66,
               width: 66,
               decoration: BoxDecoration(shape: BoxShape.circle),
-              child: Image.asset(
-                "assets/images/image2.png",
-                fit: BoxFit.cover,
+              child: market.market.image.isEmpty?Container(
+                child: Center(
+                    child: Icon(
+                      Icons.error,
+                      size: 25,
+                    )),
+              ): Container(
+                height: 66,
+                width: 66,
+                child:ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: CachedNetworkImage(
+                    imageUrl:  base_url_image + market.market.image,
+                    height: 66,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Center(
+                      child: Container(
+                          width: 25,
+                          height: 25,
+                          child: CircularProgressIndicator()),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                        height: 66,
+                        child: Center(
+                            child: Icon(
+                              Icons.error,
+                              size: 25,
+                            ))),
+                  ),
+                ),
               ),
             ),
             SizedBox(
               height: 10,
             ),
-            RatingBarBest(),
+            RatingBarBest(rate:market.market.rate),
             SizedBox(
               height: 8,
             ),
             Container(
               width: 80,
               child: Text(
-                'ام تيسيير',
+                market.market.title,
                 maxLines: 2,
                 style: TextStyle(
                   fontFamily: 'home',
@@ -56,7 +93,12 @@ class ItemListBestClient extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            ContainerType("سعودية")
+           // Row(
+           //   children: market.fields.map((e) =>  ContainerType(e.name)).toList(),
+           // ),
+            market.fields.length > 0?  Container(
+                margin: EdgeInsets.symmetric(horizontal: 2),
+                child: ContainerType(market.fields[0].name)):SizedBox()
           ],
         ),
       ),

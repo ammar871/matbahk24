@@ -1,12 +1,25 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:matbahk24/data/models/models_home/model_home.dart';
 import 'package:matbahk24/ui/user/pages/best_claint/best_claint_screen.dart';
 
 class ItemCategory extends StatelessWidget {
+  final Fields fields;
+
+
+  ItemCategory({required this.fields});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(BestClientsScreen.id);
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>
+                BestClientsScreen(fieldId: fields.id.toString()))
+        );
+
       },
       child: Container(
         margin: EdgeInsets.all(3),
@@ -18,17 +31,23 @@ class ItemCategory extends StatelessWidget {
         ),
         child: // Adobe XD layer: 'Home' (text)
             Center(
-          child: Text(
-            'طبخات \nسعودية',
-            style: TextStyle(
-              fontFamily: 'home',
-              fontSize: 11,
-              color: const Color(0xff200e32),
-              height: 1.4545454545454546,
+          child: SizedBox(
+            width: 60,
+
+            child: Text(
+
+              fields.name,
+              maxLines: null,
+              style: TextStyle(
+                fontFamily: 'home',
+                fontSize: 11,
+                color: const Color(0xff200e32),
+                height: 1.4545454545454546,
+              ),
+              textHeightBehavior:
+                  TextHeightBehavior(applyHeightToFirstAscent: false),
+              textAlign: TextAlign.center,
             ),
-            textHeightBehavior:
-                TextHeightBehavior(applyHeightToFirstAscent: false),
-            textAlign: TextAlign.center,
           ),
         ),
       ),

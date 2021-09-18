@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'componts/body_validate.dart';
 
 class ValidateNumberScreen extends StatefulWidget {
-static String id="/validate";
+static const String id="/validate";
+final String code , phone;
+
+
+ValidateNumberScreen({required this.code,required this.phone});
 
   @override
   _ValidateNumberState createState() => _ValidateNumberState();
@@ -16,7 +20,7 @@ class _ValidateNumberState extends State<ValidateNumberScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      body: BodyValidate(),
+      body: BodyValidate(code:widget.code, phone:widget.phone),
     );
   }
 }

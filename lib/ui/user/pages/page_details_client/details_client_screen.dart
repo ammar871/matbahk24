@@ -7,6 +7,10 @@ import 'package:matbahk24/widgets/rich_title_text.dart';
 
 class DetailsClientScreen extends StatelessWidget {
   static String id = "/details_client";
+final String marketId;
+
+
+  DetailsClientScreen({required this.marketId});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class DetailsClientScreen extends StatelessWidget {
 
 
       ),
-      body: BodyDetailsClient(),
+      body: BodyDetailsClient(marketId:marketId),
       endDrawer: MyDrawer(),
     );
   }

@@ -7,7 +7,7 @@ import 'package:matbahk24/widgets/rich_title_text.dart';
 import 'componts/body_success_add_meal.dart';
 
 class SuccessAddMealScreen extends StatelessWidget {
- static String id ="/SuccessAddMealScreen";
+
 
 
   @override

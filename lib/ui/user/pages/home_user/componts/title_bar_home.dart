@@ -18,37 +18,42 @@ class BarHomeUser extends StatelessWidget {
       child: Column(
         children: [
 
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 18),
-            height: 35,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10)),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'اكتب اسم المقدم الذي تبحث عنه',
-                    style: TextStyle(
-                      fontFamily: 'home',
-                      fontSize: 12,
-                      color: const Color(0xffb7bec6),
-                      height: 1.4285714285714286,
+          GestureDetector(
+            onTap: (){
+              Navigator.of(context).pushNamed(search_screen);
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 18),
+              height: 35,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'اكتب اسم المقدم الذي تبحث عنه',
+                      style: TextStyle(
+                        fontFamily: 'home',
+                        fontSize: 12,
+                        color: const Color(0xffb7bec6),
+                        height: 1.4285714285714286,
+                      ),
+                      textHeightBehavior: TextHeightBehavior(
+                          applyHeightToFirstAscent: false),
+                      textAlign: TextAlign.right,
                     ),
-                    textHeightBehavior: TextHeightBehavior(
-                        applyHeightToFirstAscent: false),
-                    textAlign: TextAlign.right,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(Icons.search, color: const Color(0xffb7bec6)),
-                  SizedBox(
-                    width: 15,
-                  ),
-                ],
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon(Icons.search, color: const Color(0xffb7bec6)),
+                    SizedBox(
+                      width: 15,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

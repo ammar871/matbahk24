@@ -1,15 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:matbahk24/bussincc_logic/providers/user/get_carts_provider/get_carts_provider.dart';
 import 'package:matbahk24/helpers/constans.dart';
-import 'package:matbahk24/helpers/styels.dart';
-import 'package:matbahk24/widgets/default_button.dart';
+import 'package:matbahk24/widgets/show_indicator.dart';
 
 import 'BarCart.dart';
 import 'ContainerDetailsPrice.dart';
 import 'DetailsCart.dart';
 import 'ListCarts.dart';
+import 'package:provider/provider.dart';
 
 class BodyCart extends StatefulWidget {
   @override
@@ -23,6 +24,19 @@ class _BodyCartState extends State<BodyCart> {
     "assets/images/vis2.png",
     "assets/images/visa3.png",
   ];
+
+  getData() {
+    Future.delayed(Duration(milliseconds: 100), () async {
+      context.read<GetCartProvider>().getCarts();
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   @override
   void dispose() {
@@ -52,7 +66,8 @@ class _BodyCartState extends State<BodyCart> {
                     SizedBox(
                       height: 20,
                     ),
-                    ListCarts()
+                   context.watch<GetCartProvider>().isLeading?ShowIndicator(color: KHomeColor,
+                       width: 50, height: 50): ListCarts(carts:context.watch<GetCartProvider>().carts)
                   ],
                 ),
               )
@@ -67,19 +82,3 @@ class _BodyCartState extends State<BodyCart> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

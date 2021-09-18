@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:matbahk24/data/models/models_home/model_home.dart';
 import 'package:matbahk24/helpers/constans.dart';
 import 'package:matbahk24/widgets/draw/my_drawer.dart';
 import 'package:matbahk24/widgets/rich_title_text.dart';
@@ -8,7 +9,11 @@ import 'package:matbahk24/widgets/rich_title_text.dart';
 import 'componts/body_product_details.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  static String id = "/product_details";
+
+  final Foods food;
+
+
+  ProductDetailsScreen({required this.food});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,7 @@ class ProductDetailsScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: BodyProductDetails(),
+      body: BodyProductDetails(foods:food),
       endDrawer: MyDrawer(),
     );
   }

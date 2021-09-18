@@ -1,8 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:matbahk24/data/models/ModelMarkets/model_markets.dart';
+import 'package:matbahk24/data/models/models_home/model_home.dart';
 import 'list_products_clients.dart';
 
 class AboutToClients extends StatelessWidget {
+  final Market markets;
+  final List<Foods> foods;
+
+  AboutToClients({required this.markets,required this.foods});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,7 +33,7 @@ class AboutToClients extends StatelessWidget {
             ],
           ),
           Text(
-              "انا ام تيسيير أستاذة في الطبخ السعودي و الخليجي بوجه عام . احب الاكلات اللبنانية و اقدمها لكم بأفضل الصور. جرب اكلاتي و لن تنساها طالما حييت. حتي في منامك .",
+             markets.summary,
               textAlign: TextAlign.right,
               style:  TextStyle(
                 fontFamily: 'home',
@@ -59,7 +66,7 @@ class AboutToClients extends StatelessWidget {
           SizedBox(
             height: 15,
           ),
-          ListProductsOfClints(),
+          ListProductsOfClints(foods:foods),
         ],
       ),
     );

@@ -6,7 +6,7 @@ import 'componts/body_splash.dart';
 
 
 class SplashScreen extends StatefulWidget {
- static String id="/splash";
+ static const String id="/splash";
 
   @override
   _SplashScreenState createState() => _SplashScreenState();

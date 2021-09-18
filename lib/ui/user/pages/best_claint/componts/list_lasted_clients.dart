@@ -1,23 +1,25 @@
 import 'package:flutter/cupertino.dart';
+import 'package:matbahk24/data/models/ModelMarkets/model_markets.dart';
 
 import 'item_lasted_clints.dart';
 
 class ListLastedClients extends StatelessWidget {
-  const ListLastedClients({
-    Key? key,
-    required this.eats,
-  }) : super(key: key);
 
-  final List<String> eats;
+  final List<ModelMarkets> list;
+
+
+  ListLastedClients({required this.list});
+
+
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: 10,
+        itemCount: list.length,
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemBuilder: (_, index) {
-          return ItemLastedClients(eats: eats);
+          return ItemLastedClients(marker: list[index]);
         });
   }
 }
